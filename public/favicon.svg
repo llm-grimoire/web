@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
+  <!-- Pages -->
+  <path d="M6 25 L27 22 L27 26 L6 29 Z" fill="#d4c5a9"/>
+  <!-- Spine -->
+  <path d="M3 3 L6 25 L6 29 L3 7 Z" fill="#1a0f07"/>
+  <!-- Cover -->
+  <path d="M3 3 L26 1 L27 22 L6 25 Z" fill="#2a1a0e" stroke="#4a3222" stroke-width="0.8"/>
+  <!-- Foreshortened sigil -->
+  <g transform="rotate(-3 15 13)" opacity="0.85">
+    <line x1="15" y1="13" x2="15" y2="7.5" stroke="#c9a654" stroke-width="1.2" stroke-linecap="round"/>
+    <line x1="15" y1="13" x2="15" y2="18.5" stroke="#c9a654" stroke-width="1.2" stroke-linecap="round"/>
+    <line x1="15" y1="13" x2="10" y2="13" stroke="#c9a654" stroke-width="1.2" stroke-linecap="round"/>
+    <line x1="15" y1="13" x2="20" y2="13" stroke="#c9a654" stroke-width="1.2" stroke-linecap="round"/>
+    <line x1="15" y1="13" x2="19" y2="9.5" stroke="#c9a654" stroke-width="1" stroke-linecap="round" opacity="0.8"/>
+    <line x1="15" y1="13" x2="11" y2="16.5" stroke="#c9a654" stroke-width="1" stroke-linecap="round" opacity="0.8"/>
+    <line x1="15" y1="13" x2="11" y2="9.5" stroke="#c9a654" stroke-width="1" stroke-linecap="round" opacity="0.8"/>
+    <line x1="15" y1="13" x2="19" y2="16.5" stroke="#c9a654" stroke-width="1" stroke-linecap="round" opacity="0.8"/>
+    <circle cx="15" cy="13" r="1" fill="#c9a654"/>
+  </g>
+</svg>

@@ -1,0 +1,38 @@
+---
+interface Props {
+  title: string;
+}
+const { title } = Astro.props;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title} | Grimoire</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <h1><a href="/"><img src="/logo.svg" alt="" width="36" height="50" class="logo-icon" /> grimoire</a></h1>
+        <nav>
+          <a href="https://github.com/llm-grimoire/registry">Registry</a>
+          <a href="https://github.com/llm-grimoire/cli">CLI</a>
+        </nav>
+      </div>
+    </header>
+    <main class="container">
+      <slot />
+    </main>
+    <footer>
+      <div class="container">
+        <p>AI-assisted codebase navigation</p>
+      </div>
+    </footer>
+  </body>
+</html>
+
+<style is:global>
+  @import "../styles/global.css";
+</style>

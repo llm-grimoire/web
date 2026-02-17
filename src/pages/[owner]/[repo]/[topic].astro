@@ -1,0 +1,40 @@
+---
+import { getCollection } from "astro:content";
+import { marked } from "marked";
+import Layout from "../../../components/Layout.astro";
+
+export async function getStaticPaths() {
+  const topics = await getCollection("topics");
+
+  return topics.map((t) => ({
+    params: {
+      owner: t.data.owner,
+      repo: t.data.repo,
+      topic: t.data.slug,
+    },
+    props: { topic: t.data, body: t.body },
+  }));
+}
+
+const { topic, body } = Astro.props;
+const html = await marked.parse(body || "");
+---
+<Layout title={topic.title}>
+  <div class="breadcrumb">
+    <a href="/">Catalog</a> /
+    <a href={`/${topic.owner}/${topic.repo}/`}>{topic.owner}/{topic.repo}</a> /
+    {topic.title}
+  </div>
+  <article class="prose">
+    <h2>{topic.title}</h2>
+    <p style="color: var(--text-muted); margin-bottom: 1.5rem;">{topic.description}</p>
+    {topic.tags.length > 0 && (
+      <div style="margin-bottom: 1.5rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
+        {topic.tags.map((tag: string) => (
+          <span class="badge">{tag}</span>
+        ))}
+      </div>
+    )}
+    <Fragment set:html={html} />
+  </article>
+</Layout>

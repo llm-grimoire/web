@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 140" fill="none">
+  <defs>
+    <linearGradient id="cover" x1="0" y1="0" x2="0.2" y2="1">
+      <stop offset="0%" stop-color="#3d2517"/>
+      <stop offset="100%" stop-color="#2a1a0e"/>
+    </linearGradient>
+    <linearGradient id="pages" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#e8dcc8"/>
+      <stop offset="40%" stop-color="#d4c5a9"/>
+      <stop offset="100%" stop-color="#bfb08a"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Shadow -->
+  <path d="M20 112 L92 100 L92 116 L20 128 Z" fill="#000" opacity="0.2"/>
+
+  <!-- Pages thickness -->
+  <path d="M16 98 L90 86 L90 104 L16 116 Z" fill="url(#pages)"/>
+  <line x1="18" y1="102" x2="88" y2="90" stroke="#c4b596" stroke-width="0.5"/>
+  <line x1="18" y1="106" x2="88" y2="94" stroke="#c4b596" stroke-width="0.5"/>
+  <line x1="18" y1="110" x2="88" y2="98" stroke="#c4b596" stroke-width="0.5"/>
+
+  <!-- Spine -->
+  <path d="M8 10 L16 98 L16 116 L8 28 Z" fill="#1a0f07"/>
+
+  <!-- Cover -->
+  <path d="M8 10 L84 2 L90 86 L16 98 Z" fill="url(#cover)" stroke="#4a3222" stroke-width="1.5"/>
+
+  <!-- Cover border -->
+  <path d="M17 16 L79 9 L84 82 L23 92 Z" fill="none" stroke="#6b4c2a" stroke-width="0.8" opacity="0.45"/>
+
+  <!-- Foreshortened Vonnegut sigil — squished vertically to sit on the angled cover -->
+  <!-- Cover center approx: (50, 50) -->
+  <g transform="rotate(-4 50 50)">
+    <!-- Faint outer ring, foreshortened as ellipse -->
+    <ellipse cx="50" cy="50" rx="18" ry="12" fill="none" stroke="#c9a654" stroke-width="1.2" opacity="0.3"/>
+    <!-- Radiating lines — foreshortened (shorter vertically than horizontally) -->
+    <!-- N/S -->
+    <line x1="50" y1="50" x2="50" y2="38" stroke="#c9a654" stroke-width="2" stroke-linecap="round" opacity="0.85"/>
+    <line x1="50" y1="50" x2="50" y2="62" stroke="#c9a654" stroke-width="2" stroke-linecap="round" opacity="0.85"/>
+    <!-- E/W -->
+    <line x1="50" y1="50" x2="34" y2="50" stroke="#c9a654" stroke-width="2" stroke-linecap="round" opacity="0.85"/>
+    <line x1="50" y1="50" x2="66" y2="50" stroke="#c9a654" stroke-width="2" stroke-linecap="round" opacity="0.85"/>
+    <!-- NE/SW — foreshortened diagonals -->
+    <line x1="50" y1="50" x2="63" y2="42" stroke="#c9a654" stroke-width="1.8" stroke-linecap="round" opacity="0.8"/>
+    <line x1="50" y1="50" x2="37" y2="58" stroke="#c9a654" stroke-width="1.8" stroke-linecap="round" opacity="0.8"/>
+    <!-- NW/SE — foreshortened diagonals -->
+    <line x1="50" y1="50" x2="37" y2="42" stroke="#c9a654" stroke-width="1.8" stroke-linecap="round" opacity="0.8"/>
+    <line x1="50" y1="50" x2="63" y2="58" stroke="#c9a654" stroke-width="1.8" stroke-linecap="round" opacity="0.8"/>
+    <!-- Center dot -->
+    <circle cx="50" cy="50" r="3" fill="#c9a654" opacity="0.9"/>
+  </g>
+</svg>

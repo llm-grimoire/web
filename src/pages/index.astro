@@ -1,0 +1,31 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "../components/Layout.astro";
+import GrimoireCard from "../components/GrimoireCard.astro";
+
+const grimoires = await getCollection("grimoires");
+---
+<Layout title="Catalog">
+  <div class="hero">
+    <img src="/logo.svg" alt="Grimoire" width="115" height="160" style="margin-bottom: 1.5rem;" />
+    <h2>Grimoire Registry</h2>
+    <p>Pre-built AI codebase guides, ready to install</p>
+  </div>
+  <div class="grid">
+    {grimoires.map((g) => (
+      <GrimoireCard
+        owner={g.data.owner}
+        repo={g.data.repo}
+        name={g.data.name}
+        description={g.data.description}
+        version={g.data.version}
+        topicCount={g.data.topicCount}
+      />
+    ))}
+  </div>
+  {grimoires.length === 0 && (
+    <p style="text-align: center; color: var(--text-muted);">
+      No grimoires in the registry yet.
+    </p>
+  )}
+</Layout>
