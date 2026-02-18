@@ -4,14 +4,14 @@ import { getCollection } from "astro:content";
 export async function getStaticPaths() {
   const grimoires = await getCollection("grimoires");
   return grimoires.map((g) => ({
-    params: { owner: g.data.owner, repo: g.data.repo },
+    params: { name: g.data.grimoireName },
   }));
 }
 
 export const GET: APIRoute = async ({ params }) => {
   const topics = await getCollection("topics");
   const matching = topics
-    .filter((t) => t.data.owner === params.owner && t.data.repo === params.repo)
+    .filter((t) => t.data.grimoireName === params.name)
     .sort((a, b) => a.data.order - b.data.order);
 
   return new Response(

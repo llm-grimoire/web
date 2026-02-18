@@ -4,9 +4,7 @@ import { grimoireLoader, topicLoader } from "./loaders/registry-loader";
 const grimoires = defineCollection({
   loader: grimoireLoader(),
   schema: z.object({
-    owner: z.string(),
-    repo: z.string(),
-    name: z.string(),
+    grimoireName: z.string(),
     description: z.string(),
     github: z.string().optional(),
     path: z.string().optional(),
@@ -18,8 +16,7 @@ const grimoires = defineCollection({
 const topics = defineCollection({
   loader: topicLoader(),
   schema: z.object({
-    owner: z.string(),
-    repo: z.string(),
+    grimoireName: z.string(),
     title: z.string(),
     slug: z.string(),
     description: z.string(),

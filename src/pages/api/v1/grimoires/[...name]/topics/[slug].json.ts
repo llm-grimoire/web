@@ -2,23 +2,27 @@ import type { APIRoute } from "astro";
 import { getCollection } from "astro:content";
 
 export async function getStaticPaths() {
+  const grimoires = await getCollection("grimoires");
   const topics = await getCollection("topics");
-  return topics.map((t) => ({
-    params: {
-      owner: t.data.owner,
-      repo: t.data.repo,
-      slug: t.data.slug,
-    },
-  }));
+
+  const paths: Array<{ params: { name: string; slug: string } }> = [];
+
+  for (const g of grimoires) {
+    const grimoireName = g.data.grimoireName;
+    for (const t of topics.filter((t) => t.data.grimoireName === grimoireName)) {
+      paths.push({
+        params: { name: grimoireName, slug: t.data.slug },
+      });
+    }
+  }
+
+  return paths;
 }
 
 export const GET: APIRoute = async ({ params }) => {
   const topics = await getCollection("topics");
   const t = topics.find(
-    (t) =>
-      t.data.owner === params.owner &&
-      t.data.repo === params.repo &&
-      t.data.slug === params.slug,
+    (t) => t.data.grimoireName === params.name && t.data.slug === params.slug,
   );
 
   if (!t) {

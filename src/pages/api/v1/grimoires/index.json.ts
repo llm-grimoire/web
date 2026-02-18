@@ -7,10 +7,9 @@ export const GET: APIRoute = async () => {
   return new Response(
     JSON.stringify({
       grimoires: grimoires.map((g) => ({
-        name: g.data.name,
-        owner: g.data.owner,
-        repo: g.data.repo,
+        name: g.data.grimoireName,
         description: g.data.description,
+        github: g.data.github,
         topicCount: g.data.topicCount,
       })),
     }),

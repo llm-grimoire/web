@@ -7,21 +7,20 @@ interface Topic {
 }
 
 interface Props {
-  owner: string;
-  repo: string;
+  grimoireName: string;
   topics: Topic[];
 }
 
-const { owner, repo, topics } = Astro.props;
+const { grimoireName, topics } = Astro.props;
 const sorted = [...topics].sort((a, b) => a.order - b.order);
 ---
 <ul class="topic-list">
   {sorted.map((t) => (
     <li>
-      <a href={`/${owner}/${repo}/${t.slug}`}>
+      <a href={`/${grimoireName}/${t.slug}`}>
         <div class="topic-header">
           <div class="title">{t.title}</div>
-          <code class="topic-cmd">grimoire show {owner}/{repo} {t.slug}</code>
+          <code class="topic-cmd">grimoire show {grimoireName} {t.slug}</code>
         </div>
         <div class="desc">{t.description}</div>
       </a>

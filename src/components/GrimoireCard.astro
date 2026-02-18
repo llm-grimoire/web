@@ -1,17 +1,16 @@
 ---
 interface Props {
-  owner: string;
-  repo: string;
-  name: string;
+  grimoireName: string;
+  github?: string;
   description: string;
   topicCount: number;
 }
-const { owner, repo, name, description, topicCount } = Astro.props;
+const { grimoireName, github, description, topicCount } = Astro.props;
 ---
-<a href={`/${owner}/${repo}/`} class="card-link">
+<a href={`/${grimoireName}/`} class="card-link">
   <article class="card">
-    <h3>{name}</h3>
-    <div class="owner">{owner}/{repo}</div>
+    <h3>{grimoireName}</h3>
+    {github && <div class="owner">{github}</div>}
     <p>{description}</p>
     <div class="meta">
       <span class="count">{topicCount} topics</span>

@@ -35,9 +35,7 @@ function parseFrontmatter(raw: string): { data: Record<string, unknown>; content
 const REGISTRY_DIR = path.resolve("registry/packages");
 
 interface GrimoireEntry {
-  owner: string;
-  repo: string;
-  name: string;
+  grimoireName: string;
   description: string;
   github?: string;
   path?: string;
@@ -46,8 +44,7 @@ interface GrimoireEntry {
 }
 
 interface TopicEntry {
-  owner: string;
-  repo: string;
+  grimoireName: string;
   title: string;
   slug: string;
   description: string;
@@ -59,6 +56,58 @@ interface TopicEntry {
   filename: string;
 }
 
+/** Read a single grimoire directory (must contain grimoire.json) */
+function readGrimoire(
+  dir: string,
+  grimoireName: string,
+  grimoires: GrimoireEntry[],
+  topics: TopicEntry[],
+): void {
+  const configPath = path.join(dir, "grimoire.json");
+  if (!fs.existsSync(configPath)) return;
+
+  const config = JSON.parse(fs.readFileSync(configPath, "utf-8"));
+  const topicsDir = path.join(dir, config.topicsDir || "topics");
+
+  let topicCount = 0;
+  if (fs.existsSync(topicsDir)) {
+    const mdFiles = fs.readdirSync(topicsDir).filter((f) => f.endsWith(".md"));
+    topicCount = mdFiles.length;
+
+    for (const file of mdFiles) {
+      const raw = fs.readFileSync(path.join(topicsDir, file), "utf-8");
+      const { data, content } = parseFrontmatter(raw);
+
+      topics.push({
+        grimoireName,
+        title: data.title || file.replace(/\.md$/, ""),
+        slug: data.slug || file.replace(/^\d+-/, "").replace(/\.md$/, ""),
+        description: data.description || "",
+        order: data.order ?? 99,
+        category: data.category || "general",
+        tags: data.tags || [],
+        relatedFiles: data.relatedFiles || [],
+        content,
+        filename: file,
+      });
+    }
+  }
+
+  grimoires.push({
+    grimoireName,
+    description: config.description || "",
+    github: config.github,
+    path: config.path,
+    sourceType: config.sourceType,
+    topicCount,
+  });
+}
+
+/**
+ * Walk the registry using npm-style naming convention:
+ * - Entries starting with `@` are scopes → walk one level deeper: `@scope/name/`
+ * - All other entries are plain names: `name/`
+ */
 function walkRegistry(): { grimoires: GrimoireEntry[]; topics: TopicEntry[] } {
   const grimoires: GrimoireEntry[] = [];
   const topics: TopicEntry[] = [];
@@ -67,55 +116,22 @@ function walkRegistry(): { grimoires: GrimoireEntry[]; topics: TopicEntry[] } {
     return { grimoires, topics };
   }
 
-  for (const owner of fs.readdirSync(REGISTRY_DIR)) {
-    const ownerDir = path.join(REGISTRY_DIR, owner);
-    if (!fs.statSync(ownerDir).isDirectory() || owner.startsWith(".")) continue;
+  for (const entry of fs.readdirSync(REGISTRY_DIR)) {
+    if (entry.startsWith(".")) continue;
+    const entryPath = path.join(REGISTRY_DIR, entry);
+    if (!fs.statSync(entryPath).isDirectory()) continue;
 
-    for (const repo of fs.readdirSync(ownerDir)) {
-      const repoDir = path.join(ownerDir, repo);
-      if (!fs.statSync(repoDir).isDirectory() || repo.startsWith(".")) continue;
-
-      const configPath = path.join(repoDir, "grimoire.json");
-      if (!fs.existsSync(configPath)) continue;
-
-      const config = JSON.parse(fs.readFileSync(configPath, "utf-8"));
-      const topicsDir = path.join(repoDir, config.topicsDir || "topics");
-
-      let topicCount = 0;
-      if (fs.existsSync(topicsDir)) {
-        const mdFiles = fs.readdirSync(topicsDir).filter((f) => f.endsWith(".md"));
-        topicCount = mdFiles.length;
-
-        for (const file of mdFiles) {
-          const raw = fs.readFileSync(path.join(topicsDir, file), "utf-8");
-          const { data, content } = parseFrontmatter(raw);
-
-          topics.push({
-            owner,
-            repo,
-            title: data.title || file.replace(/\.md$/, ""),
-            slug: data.slug || file.replace(/^\d+-/, "").replace(/\.md$/, ""),
-            description: data.description || "",
-            order: data.order ?? 99,
-            category: data.category || "general",
-            tags: data.tags || [],
-            relatedFiles: data.relatedFiles || [],
-            content,
-            filename: file,
-          });
-        }
+    if (entry.startsWith("@")) {
+      // Scoped: walk one more level
+      for (const sub of fs.readdirSync(entryPath)) {
+        if (sub.startsWith(".")) continue;
+        const subPath = path.join(entryPath, sub);
+        if (!fs.statSync(subPath).isDirectory()) continue;
+        readGrimoire(subPath, `${entry}/${sub}`, grimoires, topics);
       }
-
-      grimoires.push({
-        owner,
-        repo,
-        name: config.name || repo,
-        description: config.description || "",
-        github: config.github,
-        path: config.path,
-        sourceType: config.sourceType,
-        topicCount,
-      });
+    } else {
+      // Plain name
+      readGrimoire(entryPath, entry, grimoires, topics);
     }
   }
 
@@ -132,7 +148,7 @@ export function grimoireLoader(): Loader {
 
       for (const g of grimoires) {
         store.set({
-          id: `${g.owner}/${g.repo}`,
+          id: g.grimoireName,
           data: g,
         });
       }
@@ -150,7 +166,7 @@ export function topicLoader(): Loader {
 
       for (const t of topics) {
         store.set({
-          id: `${t.owner}/${t.repo}/${t.slug}`,
+          id: `${t.grimoireName}/${t.slug}`,
           data: t,
           body: t.content,
         });

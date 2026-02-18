@@ -26,7 +26,7 @@ const grimoires = await getCollection("grimoires");
         <div class="step-num">2</div>
         <div class="step-content">
           <div class="step-title">Add a grimoire from the registry</div>
-          <code class="step-code">grimoire add tim-smart/effect-atom</code>
+          <code class="step-code">grimoire add effect-atom</code>
         </div>
       </div>
       <div class="step">
@@ -51,9 +51,8 @@ const grimoires = await getCollection("grimoires");
     <div class="grid">
       {grimoires.map((g) => (
         <GrimoireCard
-          owner={g.data.owner}
-          repo={g.data.repo}
-          name={g.data.name}
+          grimoireName={g.data.grimoireName}
+          github={g.data.github}
           description={g.data.description}
           topicCount={g.data.topicCount}
         />

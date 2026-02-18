@@ -1,0 +1,101 @@
+---
+import { getCollection } from "astro:content";
+import { marked } from "marked";
+import Layout from "../components/Layout.astro";
+import TopicList from "../components/TopicList.astro";
+import CliHint from "../components/CliHint.astro";
+
+export async function getStaticPaths() {
+  const grimoires = await getCollection("grimoires");
+  const topics = await getCollection("topics");
+
+  const paths: Array<{ params: { path: string }; props: Record<string, unknown> }> = [];
+
+  // Grimoire detail pages: /{name}/ or /@scope/name/
+  for (const g of grimoires) {
+    const grimoireName = g.data.grimoireName;
+    const grimoireTopics = topics
+      .filter((t) => t.data.grimoireName === grimoireName)
+      .map((t) => t.data);
+
+    paths.push({
+      params: { path: grimoireName },
+      props: {
+        kind: "grimoire",
+        grimoire: g.data,
+        topics: grimoireTopics,
+      },
+    });
+
+    // Topic detail pages: /{name}/{slug} or /@scope/name/{slug}
+    for (const t of topics.filter((t) => t.data.grimoireName === grimoireName)) {
+      paths.push({
+        params: { path: `${grimoireName}/${t.data.slug}` },
+        props: {
+          kind: "topic",
+          grimoire: g.data,
+          topic: t.data,
+          body: t.body,
+        },
+      });
+    }
+  }
+
+  return paths;
+}
+
+const { kind, grimoire, topics, topic, body } = Astro.props;
+
+let html = "";
+if (kind === "topic" && body) {
+  html = await marked.parse(body);
+}
+---
+
+{kind === "grimoire" && (
+  <Layout title={grimoire.grimoireName}>
+    <div class="breadcrumb">
+      <a href="/">Catalog</a> / {grimoire.grimoireName}
+    </div>
+    <CliHint command={`list ${grimoire.grimoireName}`} />
+    <div class="detail-header">
+      <h2>{grimoire.grimoireName}</h2>
+      {grimoire.github && (
+        <div class="owner-repo">{grimoire.github}</div>
+      )}
+      <p>{grimoire.description}</p>
+      <div class="detail-meta">
+        <span>{grimoire.topicCount} topics</span>
+        {grimoire.github && (
+          <a href={`https://github.com/${grimoire.github}`}>GitHub</a>
+        )}
+      </div>
+    </div>
+    <h3 style="margin-bottom: 1rem; font-size: 1.1rem;">Topics</h3>
+    <TopicList grimoireName={grimoire.grimoireName} topics={topics} />
+    <CliHint command={`add ${grimoire.grimoireName}`} />
+  </Layout>
+)}
+
+{kind === "topic" && (
+  <Layout title={topic.title}>
+    <div class="breadcrumb">
+      <a href="/">Catalog</a> /
+      <a href={`/${grimoire.grimoireName}/`}>{grimoire.grimoireName}</a> /
+      {topic.title}
+    </div>
+    <CliHint command={`show ${grimoire.grimoireName} ${topic.slug}`} />
+    <article class="prose">
+      <h2>{topic.title}</h2>
+      <p style="color: var(--text-muted); margin-bottom: 1.5rem;">{topic.description}</p>
+      {topic.tags.length > 0 && (
+        <div style="margin-bottom: 1.5rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
+          {topic.tags.map((tag: string) => (
+            <span class="badge">{tag}</span>
+          ))}
+        </div>
+      )}
+      <Fragment set:html={html} />
+    </article>
+  </Layout>
+)}
