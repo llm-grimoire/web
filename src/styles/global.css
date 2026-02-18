@@ -74,6 +74,9 @@ header nav a {
   border-radius: 8px;
   padding: 1.25rem;
   transition: border-color 0.15s;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .card:hover { border-color: var(--accent); }
@@ -94,6 +97,9 @@ header nav a {
   color: var(--text-muted);
   font-size: 0.875rem;
   margin-bottom: 0.75rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .card .meta {
@@ -102,6 +108,7 @@ header nav a {
   gap: 1rem;
   font-size: 0.8rem;
   color: var(--text-muted);
+  margin-top: auto;
 }
 
 .card .meta .count { color: var(--green); }
