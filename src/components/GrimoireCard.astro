@@ -4,10 +4,9 @@ interface Props {
   repo: string;
   name: string;
   description: string;
-  version: string;
   topicCount: number;
 }
-const { owner, repo, name, description, version, topicCount } = Astro.props;
+const { owner, repo, name, description, topicCount } = Astro.props;
 ---
 <a href={`/${owner}/${repo}/`} class="card-link">
   <article class="card">
@@ -16,7 +15,6 @@ const { owner, repo, name, description, version, topicCount } = Astro.props;
     <p>{description}</p>
     <div class="meta">
       <span class="count">{topicCount} topics</span>
-      <span class="badge">v{version}</span>
     </div>
   </article>
 </a>

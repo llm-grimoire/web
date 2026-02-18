@@ -39,7 +39,6 @@ interface GrimoireEntry {
   repo: string;
   name: string;
   description: string;
-  version: string;
   github?: string;
   path?: string;
   sourceType?: string;
@@ -112,7 +111,6 @@ function walkRegistry(): { grimoires: GrimoireEntry[]; topics: TopicEntry[] } {
         repo,
         name: config.name || repo,
         description: config.description || "",
-        version: config.version || "0.1.0",
         github: config.github,
         path: config.path,
         sourceType: config.sourceType,

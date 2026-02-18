@@ -8,7 +8,6 @@ const grimoires = defineCollection({
     repo: z.string(),
     name: z.string(),
     description: z.string(),
-    version: z.string(),
     github: z.string().optional(),
     path: z.string().optional(),
     sourceType: z.string().optional(),

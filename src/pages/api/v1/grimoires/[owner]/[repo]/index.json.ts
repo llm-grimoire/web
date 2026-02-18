@@ -24,7 +24,6 @@ export const GET: APIRoute = async ({ params }) => {
       owner: g.data.owner,
       repo: g.data.repo,
       description: g.data.description,
-      version: g.data.version,
       github: g.data.github,
       path: g.data.path,
       sourceType: g.data.sourceType,

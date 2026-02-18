@@ -31,7 +31,6 @@ const { grimoire, topics } = Astro.props;
     <div class="owner-repo">{grimoire.owner}/{grimoire.repo}</div>
     <p>{grimoire.description}</p>
     <div class="detail-meta">
-      <span>Version: {grimoire.version}</span>
       <span>{grimoire.topicCount} topics</span>
       {grimoire.github && (
         <a href={`https://github.com/${grimoire.github}`}>GitHub</a>
