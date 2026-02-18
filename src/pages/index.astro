@@ -18,29 +18,22 @@ const grimoires = await getCollection("grimoires");
       <div class="step">
         <div class="step-num">1</div>
         <div class="step-content">
-          <div class="step-title">Install the CLI</div>
-          <code class="step-code">npm install -g @llm-grimoire/cli</code>
+          <div class="step-title">Browse topics from the registry</div>
+          <code class="step-code">npx @llm-grimoire/cli list tim-smart/effect-atom</code>
         </div>
       </div>
       <div class="step">
         <div class="step-num">2</div>
         <div class="step-content">
-          <div class="step-title">Add a grimoire from the registry</div>
-          <code class="step-code">grimoire add tim-smart/effect-atom</code>
+          <div class="step-title">Or conjure one from any codebase</div>
+          <code class="step-code">npx @llm-grimoire/cli conjure my-project --github owner/repo</code>
         </div>
       </div>
       <div class="step">
         <div class="step-num">3</div>
         <div class="step-content">
-          <div class="step-title">Or conjure one from any codebase</div>
-          <code class="step-code">grimoire conjure my-project --github owner/repo</code>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">4</div>
-        <div class="step-content">
           <div class="step-title">Feed it to your agent</div>
-          <code class="step-code">grimoire incant my-project | pbcopy</code>
+          <code class="step-code">npx @llm-grimoire/cli incant my-project | pbcopy</code>
         </div>
       </div>
     </div>

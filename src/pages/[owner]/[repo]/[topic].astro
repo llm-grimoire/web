@@ -2,6 +2,7 @@
 import { getCollection } from "astro:content";
 import { marked } from "marked";
 import Layout from "../../../components/Layout.astro";
+import CliHint from "../../../components/CliHint.astro";
 
 export async function getStaticPaths() {
   const topics = await getCollection("topics");
@@ -25,9 +26,7 @@ const html = await marked.parse(body || "");
     <a href={`/${topic.owner}/${topic.repo}/`}>{topic.owner}/{topic.repo}</a> /
     {topic.title}
   </div>
-  <div class="cli-hint">
-    <code>grimoire show {topic.owner}/{topic.repo} {topic.slug}</code>
-  </div>
+  <CliHint command={`show ${topic.owner}/${topic.repo} ${topic.slug}`} />
   <article class="prose">
     <h2>{topic.title}</h2>
     <p style="color: var(--text-muted); margin-bottom: 1.5rem;">{topic.description}</p>

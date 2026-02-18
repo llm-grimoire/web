@@ -21,7 +21,7 @@ const sorted = [...topics].sort((a, b) => a.order - b.order);
       <a href={`/${owner}/${repo}/${t.slug}`}>
         <div class="topic-header">
           <div class="title">{t.title}</div>
-          <code class="topic-cmd">grimoire show {owner}/{repo} {t.slug}</code>
+          <code class="topic-cmd">npx @llm-grimoire/cli show {owner}/{repo} {t.slug}</code>
         </div>
         <div class="desc">{t.description}</div>
       </a>

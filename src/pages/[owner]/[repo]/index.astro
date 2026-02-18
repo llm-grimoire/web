@@ -2,6 +2,7 @@
 import { getCollection } from "astro:content";
 import Layout from "../../../components/Layout.astro";
 import TopicList from "../../../components/TopicList.astro";
+import CliHint from "../../../components/CliHint.astro";
 
 export async function getStaticPaths() {
   const grimoires = await getCollection("grimoires");
@@ -24,9 +25,7 @@ const { grimoire, topics } = Astro.props;
   <div class="breadcrumb">
     <a href="/">Catalog</a> / {grimoire.owner}/{grimoire.repo}
   </div>
-  <div class="cli-hint">
-    <code>grimoire list {grimoire.owner}/{grimoire.repo}</code>
-  </div>
+  <CliHint command={`list ${grimoire.owner}/${grimoire.repo}`} />
   <div class="detail-header">
     <h2>{grimoire.name}</h2>
     <div class="owner-repo">{grimoire.owner}/{grimoire.repo}</div>
@@ -41,9 +40,5 @@ const { grimoire, topics } = Astro.props;
   </div>
   <h3 style="margin-bottom: 1rem; font-size: 1.1rem;">Topics</h3>
   <TopicList owner={grimoire.owner} repo={grimoire.repo} topics={topics} />
-  <div style="margin-bottom: 2rem;">
-    <code style="font-size: 0.9rem; color: var(--text-muted);">
-      grimoire add {grimoire.owner}/{grimoire.repo}
-    </code>
-  </div>
+  <CliHint command={`add ${grimoire.owner}/${grimoire.repo}`} />
 </Layout>
