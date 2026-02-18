@@ -3,15 +3,11 @@ interface Props {
   command: string;
 }
 const { command } = Astro.props;
-const npxCommand = `npx @llm-grimoire/cli ${command}`;
-const shortCommand = `grimoire ${command}`;
+const fullCommand = `grimoire ${command}`;
 ---
 <div class="cli-hint">
-  <div class="cli-hint-commands">
-    <code class="cli-primary">{npxCommand}</code>
-    <span class="cli-alt">or <code>{shortCommand}</code> if installed globally</span>
-  </div>
-  <button class="copy-btn" data-command={npxCommand} aria-label="Copy command">
+  <code class="cli-primary">{fullCommand}</code>
+  <button class="copy-btn" data-command={fullCommand} aria-label="Copy command">
     <svg class="icon-copy" width="16" height="16" viewBox="0 0 16 16" fill="none">
       <rect x="5" y="5" width="9" height="9" rx="1.5" stroke="currentColor" stroke-width="1.5"/>
       <path d="M11 3H3.5A1.5 1.5 0 002 4.5V11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
