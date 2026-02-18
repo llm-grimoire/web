@@ -156,6 +156,34 @@ header nav a {
 .topic-list .title { font-weight: 500; }
 .topic-list .desc { color: var(--text-muted); font-size: 0.85rem; }
 
+.cli-hint {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  margin-bottom: 1.5rem;
+  font-size: 0.85rem;
+}
+.cli-hint code {
+  color: var(--accent);
+  font-size: 0.85rem;
+}
+
+.topic-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.topic-cmd {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+.topic-list li a:hover .topic-cmd { opacity: 1; }
+
 .breadcrumb {
   font-size: 0.85rem;
   color: var(--text-muted);

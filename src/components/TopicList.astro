@@ -19,7 +19,10 @@ const sorted = [...topics].sort((a, b) => a.order - b.order);
   {sorted.map((t) => (
     <li>
       <a href={`/${owner}/${repo}/${t.slug}`}>
-        <div class="title">{t.title}</div>
+        <div class="topic-header">
+          <div class="title">{t.title}</div>
+          <code class="topic-cmd">grimoire show {owner}/{repo} {t.slug}</code>
+        </div>
         <div class="desc">{t.description}</div>
       </a>
     </li>

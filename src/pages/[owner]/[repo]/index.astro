@@ -24,6 +24,9 @@ const { grimoire, topics } = Astro.props;
   <div class="breadcrumb">
     <a href="/">Catalog</a> / {grimoire.owner}/{grimoire.repo}
   </div>
+  <div class="cli-hint">
+    <code>grimoire list {grimoire.owner}/{grimoire.repo}</code>
+  </div>
   <div class="detail-header">
     <h2>{grimoire.name}</h2>
     <div class="owner-repo">{grimoire.owner}/{grimoire.repo}</div>
